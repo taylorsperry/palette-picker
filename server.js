@@ -45,3 +45,14 @@ app.get('/api/v1/projects/:id', (req, res) => {
       res.status(500).json({ error })
     })
 })
+
+app.get('/api/v1/projects/:id/palettes', (req, res) => {
+  database('palettes').where('project_id', req.params.id).select()
+    .then(palettes => {
+      if(!palettes.length) return sendNotFound(res, `No palette associated with project id of ${req.params.id} is found.`);
+      res.status(200).json(palettes)
+    })
+    .catch(error => {
+      res.status(500).json({ error })
+    })
+})
