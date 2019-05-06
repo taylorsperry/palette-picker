@@ -94,9 +94,41 @@ app.post('/api/v1/projects/:id/palettes', (req, res) => {
     }
   }
 
-  database('palettes').insert(palette, 'id') 
+  database('palettes').insert({...palette, project_id: req.params.id}, 'id') 
     .then(palette => {
       res.status(201).json({ id: palette[0] })
+    })
+    .catch(error => {
+      res.status(500).json({ error })
+    })
+})
+
+app.put('/api/v1/projects/:id', (req, res) => {
+  const { name } = req.body
+  database('projects').where('id', req.params.id).update({ name })
+    .then(project => {
+      if(!project) return sendNotFound(res, `No project with id ${req.params.id} was found.`)
+      res.status(201).json(`Project with id ${req.params.id} has been updated.`)
+    })
+    .catch(error => {
+      res.status(500).json({ error })
+    })
+})
+
+app.put('/api/v1/projects/:id/palettes', (req, res) => {
+  const { palette_name, color_1, color_2, color_3, color_4, color_5 } = req.body
+  database('palettes').where('project_id', req.params.id)
+    .update({ 
+      palette_name, 
+      color_1, 
+      color_2, 
+      color_3, 
+      color_4, 
+      color_5 
+    })
+    .then(palette => {
+      if(!palette) return sendNotFound(res, `No palette with id ${req.params.id} was found.`)
+      res.status(201).json(`Palette associated with project id ${req.params.id} has been updated.`)
     })
     .catch(error => {
       res.status(500).json({ error })
