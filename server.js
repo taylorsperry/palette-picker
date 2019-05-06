@@ -34,3 +34,14 @@ app.get('/api/v1/palettes', (req, res) => {
       res.status(500).json({ error })
     });
 });
+
+app.get('/api/v1/projects/:id', (req, res) => {
+  database('projects').where('id', req.params.id).select()
+    .then(project => {
+      if(!project.length) return sendNotFound(res, `Project with id ${req.params.id} not found.`);
+      res.status(200).json(project)
+    })
+    .catch(error => {
+      res.status(500).json({ error })
+    })
+})
