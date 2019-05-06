@@ -56,3 +56,49 @@ app.get('/api/v1/projects/:id/palettes', (req, res) => {
       res.status(500).json({ error })
     })
 })
+
+app.post('/api/v1/projects/', (req, res) => {
+  const project = req.body;
+
+  for (let requiredParameter of ['name']) {
+    if (!project[requiredParameter]) { 
+      return res.status(422).send({error: `Expected format: { name: <string> }. You're missing ${requiredParameter}.`})
+    }
+  }
+
+  database('projects').insert(project, 'id')
+    .then(project => {
+      res.status(201).json({ id: project[0] })
+    })
+    .catch(error => {
+      res.status(500).json({ error })
+    })
+})
+
+app.post('/api/v1/projects/:id/palettes', (req, res) => {
+  const palette = req.body;
+   
+  for (let requiredParameter of ['palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5']) {
+    if (!palette[requiredParameter]) {
+      return res.status(422).send({
+        error: `Expected format: { 
+          palette_name: <string>, 
+          color_1: <string>, 
+          color_2: <string>, 
+          color_3: <string>, 
+          color_4: <string>, 
+          color_5: <string>,  
+        },
+        You're missing ${requiredParam}.`
+      })
+    }
+  }
+
+  database('palettes').insert(palette, 'id') 
+    .then(palette => {
+      res.status(201).json({ id: palette[0] })
+    })
+    .catch(error => {
+      res.status(500).json({ error })
+    })
+})
