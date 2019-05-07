@@ -1,8 +1,11 @@
-const app = require('./app')
+const express = require('express');
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
-app.set('port', process.env.PORT || 3001);
+const app = express();
 
-app.listen(app.get('port'), () => console.log(`App is running on localhost: ${app.get('port')}`));
+app.use(express.json());
 
 function sendNotFound(res, message) {
   return res.status(404).json(message)
