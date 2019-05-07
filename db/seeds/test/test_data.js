@@ -1,4 +1,4 @@
-let data = [
+export const data = [
   {
     name: 'My project',
     palettes: [
