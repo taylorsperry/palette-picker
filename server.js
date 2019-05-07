@@ -16,7 +16,6 @@ function sendNotFound(res, message) {
 app.get('/api/v1/projects', (req, res) => {
   database('projects').select()
     .then((projects) => {
-      if(!projects) return sendNotFound(res, 'No saved projects were found.');
       res.status(200).json(projects);
     })
     .catch((error) => {
@@ -27,7 +26,6 @@ app.get('/api/v1/projects', (req, res) => {
 app.get('/api/v1/palettes', (req, res) => {
   database('palettes').select()
     .then((palettes) => {
-      if(!palettes) return sendNotFound(res, 'No saved palettes were found.');
       res.status(200).json(palettes);
     })
     .catch((error) => {
@@ -67,8 +65,8 @@ app.post('/api/v1/projects/', (req, res) => {
   }
 
   database('projects').insert(project, 'id')
-    .then(project => {
-      res.status(201).json({ id: project[0] })
+    .then(projectIds => {
+      res.status(201).json({ id: projectIds[0] })
     })
     .catch(error => {
       res.status(500).json({ error })
@@ -95,8 +93,8 @@ app.post('/api/v1/projects/:id/palettes', (req, res) => {
   }
 
   database('palettes').insert({...palette, project_id: req.params.id}, 'id') 
-    .then(palette => {
-      res.status(201).json({ id: palette[0] })
+    .then(paletteIds => {
+      res.status(201).json({ id: paletteIds[0] })
     })
     .catch(error => {
       res.status(500).json({ error })
@@ -134,3 +132,21 @@ app.put('/api/v1/projects/:id/palettes', (req, res) => {
       res.status(500).json({ error })
     })
 })
+
+app.delete('/api/v1/projects/:id', (req, res) => {
+  const { id } = req.params;
+  database('palettes').where('project_id', id).del()
+    .then(rows => {
+      database('projects').where('id', id).del()
+        .then(result => {
+          if(result > 0) {
+            res.status(200).json(`Project with id: ${id} and it's ${rows} palettes have been deleted.`)
+          } else {
+            res.status(404).json(`Project with id: ${id} was not found.`)
+          }
+        })
+    })
+    .catch(error => {
+      res.status(500).json({ error })
+    })
+});
