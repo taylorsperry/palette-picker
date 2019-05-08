@@ -2,8 +2,9 @@ const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
 import request from 'supertest';
-import app from './app';
-import mockData from './mockData'
+import '@babel/polyfill';
+const app = require('./app');
+const mockData = require('./mockData');
 
 describe('/api/v1', () => {
   beforeEach(async () => {
@@ -11,8 +12,15 @@ describe('/api/v1', () => {
   })
 
   describe('GET /projects', () => {
-    it('should return all projects')
-    //Liz
+    it('should return all projects', async () => {
+      const expectedProjectsNumber = mockData.length;
+
+      const response = await request(app).get('/api/v1/projects');
+      const result = response.body;
+
+      expect(response.status).toBe(200);
+      expect(result.length).toBe(expectedProjectsNumber)
+    })
   })
 
   describe('GET /palettes', () => {
