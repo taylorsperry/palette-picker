@@ -25,19 +25,25 @@ describe('/api/v1', () => {
 
   describe('GET /palettes', () => {
     it('should return all palettes', async () => {
-      const expectedPalettesNumber = palettes.length
-
+      const allPalettes = await database('palettes').select()
       const response = await request(app).get('/api/v1/palettes')
       const result = response.body
 
       expect(response.status).toBe(200)
-    })
-  })
+      expect(result.length).toBe(allPalettes.length)
+    });
+  });
 
   describe('GET /projects/:id', () => {
-    it('should get a specific project by id')
-    //Liz
-  })
+    it('should get a specific project by id', async () => {
+      const project = await database('projects').first();
+      const response = await request(app).get(`/api/v1/projects/${project.id}`)
+      const result = response.body;
+
+      expect(response.status).toBe(200);
+      expect(result[0].id).toEqual(project.id)
+    });
+  });
 
   describe('GET /projects/:id/palettes', () => {
     it('should get all of the palettes for a specific project')
