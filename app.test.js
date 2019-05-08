@@ -139,7 +139,7 @@ describe('/api/v1', () => {
   })
 
   describe('DELETE /projects/:id', () => {
-      it('should delete the correct project', async () => {
+    it('should delete the correct project', async () => {
       const originalProjects = await database('projects').select();
       const projectToDelete = await database('projects').first();
       const response = await request(app).delete(`/api/v1/projects/${projectToDelete.id}`);
@@ -151,6 +151,14 @@ describe('/api/v1', () => {
       expect(newProjects.length).toBe(originalProjects.length - 1);
       expect(newPalettes.length).toBe(0);
     });
+
+    it('should send a 404 error if the project does not exist', async () => {
+      const response = await request(app).delete('/api/v1/projects/999')
+      const expectedMsg = "\"Project with id: 999 was not found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
 
   });
 
