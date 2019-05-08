@@ -94,7 +94,18 @@ describe('/api/v1', () => {
   })
 
   describe('PUT /projects/:id', () => {
-    it('should update a project')
+    it('should update a project', async () => {
+      const existingProject = await database('projects').first()
+      const id = existingProject.id
+      const updatedProject = { name: 'New Name'}
+
+      const response = await request(app).put(`/api/v1/projects/${id}`).send(updatedProject)
+
+      const checkProject = await database('projects').where('id', id)
+
+      expect(response.status).toBe(201)
+      expect(checkProject[0].name).toEqual(updatedProject.name)
+    })
     
   })
 
