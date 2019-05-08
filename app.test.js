@@ -71,13 +71,31 @@ describe('/api/v1', () => {
   })
 
   describe('POST /projects/:id/palettes', () => {
-    it('should post a new palette with the correct project_id')
-    //Taylor
+    it('should post a new palette with the correct project_id', async () => {
+      const firstProject = await database('projects').first()
+
+      const newPalette = { 
+                          palette_name: 'My palette', 
+                          color_1: 'yellow',
+                          color_2: 'blue',
+                          color_3: 'orange',
+                          color_4: 'green',
+                          color_5: 'red'
+                        }
+
+      const response = await request(app).post(`/api/v1/projects/${firstProject.id}/palettes`).send(newPalette)
+      
+      const addedPalette = await database('palettes').where('id', response.body.id)
+
+      expect(response.status).toBe(201)
+      expect(addedPalette[0].project_id).toEqual(firstProject.id)
+    })
+    
   })
 
   describe('PUT /projects/:id', () => {
     it('should update a project')
-    //Liz
+    
   })
 
   describe('PUT /palettes/:id', () => {
