@@ -53,13 +53,21 @@ describe('/api/v1', () => {
       const response = await request(app).get(`/api/v1/projects/${id}/palettes`)
       const palettes = await database('palettes').where('project_id', id)
 
+      expect(response.status).toBe(200)
       expect(response.body.length).toBe(palettes.length)
     })
   })
 
   describe('POST /projects', () => {
-    it('should post a new project')
-    //Liz
+    it('should post a new project', async () => {
+      const newProject = { name: 'My First Project' }
+  
+      const response = await request(app).post(`/api/v1/projects`).send(newProject)
+      const projects = await database('projects').where('id', response.body.id).select()
+
+      expect(response.status).toBe(201)
+      expect(projects[0].name).toBe(newProject.name)
+    })
   })
 
   describe('POST /projects/:id/palettes', () => {
