@@ -55,20 +55,38 @@ describe('/api/v1', () => {
 
       expect(response.status).toBe(200)
       expect(response.body.length).toBe(palettes.length)
-    })
-  })
+    });
+
+    it('should return a 404 if palette does not exist', async () => {
+      const response = await request(app).get('/api/v1/projects/999/palettes');
+      const expectedMsg = "\"No palette associated with project id of 999 is found.\""
+
+      expect(response.text).toBe(expectedMsg);
+      expect(response.status).toBe(404);
+    });
+  });
 
   describe('POST /projects', () => {
     it('should post a new project', async () => {
-      const newProject = { name: 'My First Project' }
+      const newProject = { name: 'My First Project' };
   
-      const response = await request(app).post(`/api/v1/projects`).send(newProject)
-      const projects = await database('projects').where('id', response.body.id).select()
+      const response = await request(app).post(`/api/v1/projects`).send(newProject);
+      const projects = await database('projects').where('id', response.body.id).select();
 
-      expect(response.status).toBe(201)
-      expect(projects[0].name).toBe(newProject.name)
-    })
-  })
+      expect(response.status).toBe(201);
+      expect(projects[0].name).toBe(newProject.name);
+    });
+
+    it('should return 422 if req.body is missing name', async () => {
+      const newProject = { name: '' };
+      const expectedMsg = "{\"error\":\"Expected format: { name: <string> }. You're missing name.\"}"
+      
+      const response = await request(app).post('/api/v1/projects').send(newProject);
+      
+      expect(response.status).toBe(422);
+      expect(response.text).toBe(expectedMsg);
+    });
+  });
 
   describe('POST /projects/:id/palettes', () => {
     it('should post a new palette with the correct project_id', async () => {
@@ -89,9 +107,17 @@ describe('/api/v1', () => {
 
       expect(response.status).toBe(201)
       expect(addedPalette[0].project_id).toEqual(firstProject.id)
-    })
-    
-  })
+    });
+
+    it('should return 422 if req.body is missing name', async () => {
+      const project = await database('projects').first()
+      const newPalette = { palette_name: '' };
+      
+      const response = await request(app).post(`/api/v1/projects/${project.id}/palettes`).send(newPalette);
+      
+      expect(response.status).toBe(422);
+    });
+  });
 
   describe('PUT /projects/:id', () => {
     it('should update a project', async () => {
