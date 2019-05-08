@@ -71,12 +71,29 @@ describe('/api/v1', () => {
   })
 
   describe('DELETE /projects/:id', () => {
-    it('should delete a project')
-    //Liz
-  })
+      it('should delete the correct project', async () => {
+      const originalProjects = await database('projects').select();
+      const projectToDelete = await database('projects').first();
+      const response = await request(app).delete(`/api/v1/projects/${projectToDelete.id}`);
+      
+      const newProjects = await database('projects').select();
+      const newPalettes = await database('palettes').where('project_id', projectToDelete.id)
+
+      expect(response.status).toBe(200);
+      expect(newProjects.length).toBe(originalProjects.length - 1);
+      expect(newPalettes.length).toBe(0);
+    });
+
+  });
 
   describe('DELETE /palettes/:id', () => {
-    it('should delete a palette')
-    //Taylor
-  })
-})
+    it('should delete a palette', async () => {
+      const originalPalettes = await database('palettes').select();
+      const expectedPalette = await database('palettes').first();
+      await request(app).delete(`/api/v1/palettes/${expectedPalette.id}`);
+
+      const newPalettes = await database('palettes').select();
+      expect(newPalettes.length).toBe(originalPalettes.length - 1)
+    });
+  });
+});
