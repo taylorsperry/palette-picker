@@ -115,6 +115,14 @@ describe('/api/v1', () => {
       expect(checkProject[0].name).toEqual(updatedProject.name)
     })
     
+    it('should send a 404 if a project does not exist', async () => {
+      const updatedProject = { name: 'New Name'}
+      const response = await request(app).put('/api/v1/projects/999').send(updatedProject)
+      const expectedMsg = "\"No project with id 999 was found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   })
 
   describe('PUT /palettes/:id', () => {
