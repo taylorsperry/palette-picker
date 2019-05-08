@@ -163,5 +163,13 @@ describe('/api/v1', () => {
       const newPalettes = await database('palettes').select();
       expect(newPalettes.length).toBe(originalPalettes.length - 1)
     });
+
+    it('should send a 404 error if the palette does not exist', async () => {
+      const response = await request(app).delete('/api/v1/palettes/999')
+      const expectedMsg = "\"Palette with id: 999 was not found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   });
 });
