@@ -46,8 +46,15 @@ describe('/api/v1', () => {
   });
 
   describe('GET /projects/:id/palettes', () => {
-    it('should get all of the palettes for a specific project')
-    //Taylor
+    it('should get all of the palettes for a specific project', async () => {
+      const project = await database('projects').first()
+      const id = project.id
+  
+      const response = await request(app).get(`/api/v1/projects/${id}/palettes`)
+      const palettes = await database('palettes').where('project_id', id)
+
+      expect(response.body.length).toBe(palettes.length)
+    })
   })
 
   describe('POST /projects', () => {
