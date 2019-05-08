@@ -43,6 +43,14 @@ describe('/api/v1', () => {
       expect(response.status).toBe(200);
       expect(result[0].id).toEqual(project.id)
     });
+
+    it('should send a 404 error if the project does not exist', async () => {
+      const response = await request(app).get('/api/v1/projects/999')
+      const expectedMsg = "\"Project with id 999 not found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   });
 
   describe('GET /projects/:id/palettes', () => {
