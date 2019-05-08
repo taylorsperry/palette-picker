@@ -85,7 +85,7 @@ app.post('/api/v1/projects/:id/palettes', (req, res) => {
           color_4: <string>, 
           color_5: <string>,  
         },
-        You're missing ${requiredParam}.`
+        You're missing ${requiredParameter}.`
       })
     }
   }
