@@ -43,6 +43,14 @@ describe('/api/v1', () => {
       expect(response.status).toBe(200);
       expect(result[0].id).toEqual(project.id)
     });
+
+    it('should send a 404 error if the project does not exist', async () => {
+      const response = await request(app).get('/api/v1/projects/999')
+      const expectedMsg = "\"Project with id 999 not found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   });
 
   describe('GET /projects/:id/palettes', () => {
@@ -133,6 +141,14 @@ describe('/api/v1', () => {
       expect(checkProject[0].name).toEqual(updatedProject.name)
     })
     
+    it('should send a 404 if a project does not exist', async () => {
+      const updatedProject = { name: 'New Name'}
+      const response = await request(app).put('/api/v1/projects/999').send(updatedProject)
+      const expectedMsg = "\"No project with id 999 was found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   })
 
   describe('PUT /palettes/:id', () => {
@@ -154,10 +170,27 @@ describe('/api/v1', () => {
       expect(response.status).toBe(201)
       expect(checkPalette[0].palette_name).toEqual(updatedPalette.palette_name)
     })
+
+    it('should send a 404 if the palette is not found', async () => {
+      const updatedPalette = {
+                                palette_name: 'I have a new name!', 
+                                color_1: 'yellow',
+                                color_2: 'blue',
+                                color_3: 'orange',
+                                color_4: 'green',
+                                color_5: 'red'
+                              }
+
+      const response = await request(app).put('/api/v1/palettes/999').send(updatedPalette)
+      const expectedMsg =  "\"No palette with id: 999 was found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   })
 
   describe('DELETE /projects/:id', () => {
-      it('should delete the correct project', async () => {
+    it('should delete the correct project', async () => {
       const originalProjects = await database('projects').select();
       const projectToDelete = await database('projects').first();
       const response = await request(app).delete(`/api/v1/projects/${projectToDelete.id}`);
@@ -170,6 +203,14 @@ describe('/api/v1', () => {
       expect(newPalettes.length).toBe(0);
     });
 
+    it('should send a 404 error if the project does not exist', async () => {
+      const response = await request(app).delete('/api/v1/projects/999')
+      const expectedMsg = "\"Project with id: 999 was not found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
+
   });
 
   describe('DELETE /palettes/:id', () => {
@@ -181,5 +222,13 @@ describe('/api/v1', () => {
       const newPalettes = await database('palettes').select();
       expect(newPalettes.length).toBe(originalPalettes.length - 1)
     });
+
+    it('should send a 404 error if the palette does not exist', async () => {
+      const response = await request(app).delete('/api/v1/palettes/999')
+      const expectedMsg = "\"Palette with id: 999 was not found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   });
 });
