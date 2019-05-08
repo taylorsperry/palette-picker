@@ -136,6 +136,23 @@ describe('/api/v1', () => {
       expect(response.status).toBe(201)
       expect(checkPalette[0].palette_name).toEqual(updatedPalette.palette_name)
     })
+
+    it('should send a 404 if the palette is not found', async () => {
+      const updatedPalette = {
+                                palette_name: 'I have a new name!', 
+                                color_1: 'yellow',
+                                color_2: 'blue',
+                                color_3: 'orange',
+                                color_4: 'green',
+                                color_5: 'red'
+                              }
+
+      const response = await request(app).put('/api/v1/palettes/999').send(updatedPalette)
+      const expectedMsg =  "\"No palette with id: 999 was found.\""
+
+      expect(response.status).toBe(404)
+      expect(response.text).toBe(expectedMsg)
+    })
   })
 
   describe('DELETE /projects/:id', () => {
