@@ -1,1 +1,1 @@
-web: node server.jsherok
+web: node server.js
