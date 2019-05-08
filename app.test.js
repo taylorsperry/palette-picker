@@ -110,8 +110,24 @@ describe('/api/v1', () => {
   })
 
   describe('PUT /palettes/:id', () => {
-    it('should update a palette')
-    //Taylor
+    it('should update a palette', async () => {
+      const existingPalette = await database('palettes').first()
+      const id = existingPalette.id
+      const updatedPalette = {
+                          palette_name: 'I have a new name!', 
+                          color_1: 'yellow',
+                          color_2: 'blue',
+                          color_3: 'orange',
+                          color_4: 'green',
+                          color_5: 'red'
+                        }
+      const response = await request(app).put(`/api/v1/palettes/${id}`).send(updatedPalette)
+
+      const checkPalette = await database('palettes').where('id', id)
+      
+      expect(response.status).toBe(201)
+      expect(checkPalette[0].palette_name).toEqual(updatedPalette.palette_name)
+    })
   })
 
   describe('DELETE /projects/:id', () => {
