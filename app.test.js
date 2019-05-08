@@ -16,8 +16,14 @@ describe('/api/v1', () => {
   })
 
   describe('GET /palettes', () => {
-    it('should return all palettes')
-    //Taylor
+    it('should return all palettes', async () => {
+      const expectedPalettesNumber = palettes.length
+
+      const response = await request(app).get('/api/v1/palettes')
+      const result = response.body
+
+      expect(response.status).toBe(200)
+    })
   })
 
   describe('GET /projects/:id', () => {
