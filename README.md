@@ -52,11 +52,11 @@ A user can add an additional project the database. Below is the required paramet
 | name         | string    | unique name for each project            |
 
 POST options object example:
-```json
+```
   {
-    "method": "PUT",
-    "body": "JSON.stringify({name: 'New Project Name'})",
-    "headers": { 
+    method: "PUT",
+    body: JSON.stringify({name: 'New Project Name'}),
+    headers: { 
       "Content-Type": "application/json"
     }
   }
@@ -70,11 +70,11 @@ A user can edit a saved project in the database. Below is the required parameter
 | name         | string    | updated name for the project            |
 
 PUT options object example:
-```json
+```
   {
-    "method": "PUT",
-    "body": "JSON.stringify({name: 'New Project Name'})",
-    "headers": { 
+    method: "PUT",
+    body: JSON.stringify({name: 'New Project Name'}),
+    headers: { 
       "Content-Type": "application/json"
     }
   }
