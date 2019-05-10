@@ -54,10 +54,10 @@ A user can add an additional project the database. Below is the required paramet
 POST options object example:
 ```json
   {
-    method: 'POST',
-    body: JSON.stringify({name: projectName}),
-    headers: { 
-      'Content-Type': 'application/json'
+    "method": "PUT",
+    "body": "JSON.stringify({name: 'New Project Name'})",
+    "headers": { 
+      "Content-Type": "application/json"
     }
   }
 ```
@@ -69,13 +69,13 @@ A user can edit a saved project in the database. Below is the required parameter
 | :------------|:----------|:----------------------------------------|
 | name         | string    | updated name for the project            |
 
-POST options object example:
+PUT options object example:
 ```json
   {
-    method: 'PUT',
-    body: JSON.stringify({name: 'New Project Name'}),
-    headers: { 
-      'Content-Type': 'application/json'
+    "method": "PUT",
+    "body": "JSON.stringify({name: 'New Project Name'})",
+    "headers": { 
+      "Content-Type": "application/json"
     }
   }
 ```
