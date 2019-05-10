@@ -11,14 +11,32 @@ The base url to make requests to the api:
 #### GET `/api/v1/projects` (All Projects)
 The response sends all the projects in the database:
 
-| Name         | type      | Description                             |
-| :------------|:----------|:----------------------------------------|
-| name         | string    | unique name for each project            |
-
 Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects` example:
 ```json
 [
   {
+    "id": "1",
+    "name": "My Project",
+    "created_at": "2019-05-03T16:02:46.742Z",
+    "updated_at": "2019-05-03T16:02:46.742Z"
+  },
+  {
+    "id": "2",
+    "name": "My New Project",
+    "created_at": "2019-05-03T16:02:46.742Z",
+    "updated_at": "2019-05-03T16:02:46.742Z"
+  }
+]
+```
+
+#### GET `/api/v1/projects/:id` (Request Single Project)
+Response will send a single project that matches the id parameter in the request.
+
+Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects/1` example:
+```json
+[
+  {
+    "id": "1",
     "name": "My Project",
     "created_at": "2019-05-03T16:02:46.742Z",
     "updated_at": "2019-05-03T16:02:46.742Z"
@@ -26,37 +44,40 @@ Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects` example
 ]
 ```
 
-#### GET `/api/v1/parties/:id` (Request Single Party)
-Response will send a single party that matches the id parameter in the request
+#### POST `/api/v1/projects/` (Create New Project)
+A user can add an additional project the database. Below is the required parameters and an example post.
 
-Response from `https://deleted-tweets.herokuapp.com/api/v1/parties/1` example:
-```json
-[
-  {
-    "id": 1,
-    "name": "Democratic Party",
-    "symbol": "Donkey",
-    "founded": "1828",
-    "created_at": "2019-05-03T16:02:46.742Z",
-    "updated_at": "2019-05-03T16:02:46.742Z"
-  },
-]
-```
-
-#### POST `/api/v1/parties/` (Create New Party)
-A user can add an additional tweet to the database. Below is the required parameters and an example post.
-
-| Name         | type      | Description                                     |
-| :------------|:----------|:------------------------------------------------|
-| name         | string    | name of party                                   |
-| symbol       | string    | symbol of party                                 |
-| founded      | string    | year party was founded                          |
+| Name         | type      | Description                             |
+| :------------|:----------|:----------------------------------------|
+| name         | string    | unique name for each project            |
 
 POST Party Example:
 ```json
  {
-  "name": "Independent Party", 
-  "symbol": "Eagle", 
-  "founded": "1967"
- }
+    "id": "3",
+    "name": "House Inspiration",
+    "created_at": "2019-05-03T16:02:46.742Z",
+    "updated_at": "2019-05-03T16:02:46.742Z"
+  }
 ```
+
+#### PUT `/api/v1/projects/:id` (Edit Existing Project)
+A user can edit a saved project in the database. Below is the required parameters and an example post.
+
+| Name         | type      | Description                             |
+| :------------|:----------|:----------------------------------------|
+| name         | string    | updated name for the project            |
+
+POST Party Example:
+```json
+ {
+    "name": "Beach House Inspiration"
+  }
+```
+
+#### DELETE `/api/v1/projects/:id` (Delete Existing Project)
+A user can edit a saved project in the database. Below is the required parameters and an example post.
+
+| Name         | type         | Description                             |
+| :------------|:-------------|:----------------------------------------|
+| id           | req.param    | request parameter from request url      |
