@@ -231,4 +231,6 @@ describe('/api/v1', () => {
       expect(response.text).toBe(expectedMsg)
     })
   });
+
+  //testing a commit for Travis CI
 });
