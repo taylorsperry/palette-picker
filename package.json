@@ -4,8 +4,10 @@
   "description": "Palette Picker",
   "main": "server.js",
   "scripts": {
-    "test": "jest --watch",
-    "start": "node server.js"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "start": "node server.js",
+    "start:nodemon": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
