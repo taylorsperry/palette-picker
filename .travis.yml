@@ -5,4 +5,3 @@ services:
   - postgresql
 before_script:
   - psql -c 'create database palette_picker_test;' -U postgres
-  - node ./replay.js -d postgres://localhost/palette_picker_test
