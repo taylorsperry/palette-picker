@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
@@ -6,6 +7,7 @@ const database = require('knex')(configuration);
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 function sendNotFound(res, message) {
   return res.status(404).json(message)
@@ -17,7 +19,7 @@ app.get('/api/v1/projects', (req, res) => {
       res.status(200).json(projects);
     })
     .catch((error) => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     });
 });
 
@@ -27,7 +29,7 @@ app.get('/api/v1/palettes', (req, res) => {
       res.status(200).json(palettes);
     })
     .catch((error) => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     });
 });
 
@@ -38,7 +40,7 @@ app.get('/api/v1/projects/:id', (req, res) => {
       res.status(200).json(project)
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 })
 
@@ -49,7 +51,7 @@ app.get('/api/v1/projects/:id/palettes', (req, res) => {
       res.status(200).json(palettes)
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 })
 
@@ -67,7 +69,7 @@ app.post('/api/v1/projects/', (req, res) => {
       res.status(201).json({ id: projectIds[0] })
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 })
 
@@ -95,7 +97,7 @@ app.post('/api/v1/projects/:id/palettes', (req, res) => {
       res.status(201).json({ id: paletteIds[0] })
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 })
 
@@ -107,7 +109,7 @@ app.put('/api/v1/projects/:id', (req, res) => {
       res.status(201).json(`Project with id ${req.params.id} has been updated.`)
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 })
 
@@ -127,7 +129,7 @@ app.put('/api/v1/palettes/:id', (req, res) => {
       res.status(201).json(`Palette with id: ${req.params.id} has been updated.`)
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 })
 
@@ -145,7 +147,7 @@ app.delete('/api/v1/projects/:id', (req, res) => {
         })
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 });
 
@@ -160,7 +162,7 @@ app.delete('/api/v1/palettes/:id', (req, res) => {
       }
     })
     .catch(error => {
-      res.status(500).json({ error })
+      res.status(500).send({ error })
     })
 })
 
