@@ -51,13 +51,14 @@ A user can add an additional project the database. Below is the required paramet
 | :------------|:----------|:----------------------------------------|
 | name         | string    | unique name for each project            |
 
-POST Party Example:
+POST options object example:
 ```json
- {
-    "id": "3",
-    "name": "House Inspiration",
-    "created_at": "2019-05-03T16:02:46.742Z",
-    "updated_at": "2019-05-03T16:02:46.742Z"
+  {
+    method: 'POST',
+    body: JSON.stringify({name: projectName}),
+    headers: { 
+      'Content-Type': 'application/json'
+    }
   }
 ```
 
@@ -68,10 +69,14 @@ A user can edit a saved project in the database. Below is the required parameter
 | :------------|:----------|:----------------------------------------|
 | name         | string    | updated name for the project            |
 
-POST Party Example:
+POST options object example:
 ```json
- {
-    "name": "Beach House Inspiration"
+  {
+    method: 'PUT',
+    body: JSON.stringify({name: 'New Project Name'}),
+    headers: { 
+      'Content-Type': 'application/json'
+    }
   }
 ```
 
