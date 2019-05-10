@@ -1,40 +1,27 @@
 # Palette Picker
-This is a REST API containing recently deleted tweets from Colorado politicans.
+This is a REST API to track projects and associated color palettes.
 
 ## Make Requests
 - Use GET, POST, DELETE endpoints view, add to, or delete from the API.
 
 ## Initial:
 The base url to make requests to the api:
-#### `https://deleted-tweets.herokuapp.com`
+#### `https://liz-taylor-palette.herokuapp.com`
 
-#### GET `/api/v1/parties` (All Parties)
-The response sends all the political parties in the database. (id, name, symbol, and year founded):
+#### GET `/api/v1/projects` (All Projects)
+The response sends all the projects in the database:
 
 | Name         | type      | Description                             |
 | :------------|:----------|:----------------------------------------|
-| id           | integer   | unique id for each party                |
-| name         | string    | name of the party                       |
-| symbol       | string    | symbol associated with part             |
+| name         | string    | unique name for each project            |
 
-Response from `https://deleted-tweets.herokuapp.com/api/v1/parties` example:
+Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects` example:
 ```json
 [
   {
-    "id": "1",
-    "name": "Democratic Party",
-    "symbol": "Donkey",
-    "founded": "1828",
+    "name": "My Project",
     "created_at": "2019-05-03T16:02:46.742Z",
     "updated_at": "2019-05-03T16:02:46.742Z"
-  },
-  {
-    "id": 2,
-    "name": "Republican Party",
-    "symbol": "Elephant",
-    "founded": "1854",
-    "created_at": "2019-05-03T16:02:46.753Z",
-    "updated_at": "2019-05-03T16:02:46.753Z"
   }
 ]
 ```
