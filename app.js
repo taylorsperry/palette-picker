@@ -140,7 +140,7 @@ app.delete('/api/v1/projects/:id', (req, res) => {
       database('projects').where('id', id).del()
         .then(result => {
           if(result > 0) {
-            res.status(200).json(`Project with id: ${id} and it's ${rows} palettes have been deleted.`)
+            res.status(200).json(`Project with id: ${id} and its associated palettes have been deleted.`)
           } else {
             res.status(404).json(`Project with id: ${id} was not found.`)
           }
