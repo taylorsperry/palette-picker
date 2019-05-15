@@ -66,9 +66,9 @@ A user can add an additional project to the database with the following required
 POST options object example:
 ```json
   {
-    method: "POST",
-    body: JSON.stringify({name: 'New Project Name'}),
-    headers: { 
+    "method": "POST",
+    "body": "JSON.stringify({name: 'New Project Name'})",
+    "headers": { 
       "Content-Type": "application/json"
     }
   }
@@ -98,9 +98,9 @@ A user can edit a saved project in the database with the following required para
 PUT options object example:
 ```json
   {
-    method: "PUT",
-    body: JSON.stringify({name: 'New Project Name'}),
-    headers: { 
+    "method": "PUT",
+    "body": "JSON.stringify({name: 'New Project Name'})",
+    "headers": { 
       "Content-Type": "application/json"
     }
   }
@@ -229,16 +229,16 @@ A user can add a palette to the database with a `project_id` that matches the re
 POST options object example:
 ```json
   {
-    method: "PUT",
-    body: JSON.stringify({
-      palette_name: "Neon",
-      color_1: "#1C520F",
-      color_2: "#AB3F45",
-      color_3: "#D6AF52",
-      color_4: "#6744C8",
-      color_5: "#37A5F4",
-     }),
-    headers: { 
+    "method": "PUT",
+    "body": "JSON.stringify({
+      palette_name: Neon,
+      color_1: #1C520F,
+      color_2: #AB3F45,
+      color_3: #D6AF52,
+      color_4: #6744C8,
+      color_5: #37A5F4,
+     })",
+    "headers": { 
       "Content-Type": "application/json"
     }
   }
@@ -280,16 +280,16 @@ A user can edit a single project with the `id` that matches the request paramete
 PUT options object example:
 ```json
   {
-    method: "PUT",
-    body: JSON.stringify({
-      palette_name: "Neon",
-      color_1: "#1C520F",
-      color_2: "#AB3F45",
-      color_3: "#D6AF52",
-      color_4: "#6744C8",
-      color_5: "#37A5F4",
-     }),
-    headers: { 
+    "method": "PUT",
+    "body": "JSON.stringify({
+      palette_name: Neon,
+      color_1: #1C520F,
+      color_2: #AB3F45,
+      color_3: #D6AF52,
+      color_4: #6744C8,
+      color_5: #37A5F4,
+     })",
+    "headers": { 
       "Content-Type": "application/json"
     }
   }
