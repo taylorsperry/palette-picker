@@ -14,8 +14,18 @@ function sendNotFound(res, message) {
 }
 
 app.get('/api/v1/projects', (req, res) => {
+  var name = req.query.name
+  console.log(req.query)
   database('projects').select()
     .then((projects) => {
+      if (name) {
+        const projectName = projects.find(project => name === project.name)
+        if (projectName) {
+          res.status(200).json(projectName);
+        } else {
+          res.status(404).json('That project does not exist')
+        }
+      } 
       res.status(200).json(projects);
     })
     .catch((error) => {
