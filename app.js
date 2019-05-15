@@ -14,8 +14,18 @@ function sendNotFound(res, message) {
 }
 
 app.get('/api/v1/projects', (req, res) => {
+  var name = req.query.name
+  console.log(req.query)
   database('projects').select()
     .then((projects) => {
+      if (name) {
+        const projectName = projects.find(project => name === project.name)
+        if (projectName) {
+          res.status(200).json(projectName);
+        } else {
+          res.status(404).json('That project does not exist')
+        }
+      } 
       res.status(200).json(projects);
     })
     .catch((error) => {
@@ -140,7 +150,7 @@ app.delete('/api/v1/projects/:id', (req, res) => {
       database('projects').where('id', id).del()
         .then(result => {
           if(result > 0) {
-            res.status(200).json(`Project with id: ${id} and it's ${rows} palettes have been deleted.`)
+            res.status(200).json(`Project with id: ${id} and its associated palettes have been deleted.`)
           } else {
             res.status(404).json(`Project with id: ${id} was not found.`)
           }

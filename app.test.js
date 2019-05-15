@@ -21,6 +21,17 @@ describe('/api/v1', () => {
       expect(response.status).toBe(200);
       expect(result.length).toBe(expectedProjectsNumber)
     })
+
+    it('should return the correct project if there is a name query parameter', async () => {
+      const response = await request(app).get('/api/v1/projects?name=My%20project');
+      expect(response.status).toBe(200)
+      expect(response.body.name).toBe(mockData[0].name)
+    })
+
+    it('should return a 404 error if the name in the query parameter does not match any of the project names', async () => {
+      const response = await request(app).get('/api/v1/project?name=not%20here')
+      expect(response.status).toBe(404)
+    })
   })
 
   describe('GET /palettes', () => {
