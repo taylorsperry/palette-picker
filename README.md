@@ -10,7 +10,7 @@ The base url to make requests to the api:
 
 ## Projects
 
-#### GET `/api/v1/projects` (Get All Projects)
+#### GET `/api/v1/projects` (Get All Projects or Project by Name)
 The response sends all the projects in the database with a 200 status code. 
 
 Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects` example:
@@ -29,6 +29,27 @@ Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects` example
     "updated_at": "2019-05-03T16:02:46.742Z"
   }
 ]
+```
+
+If a name is passed through query parameters, the response will send the project with the passed name and a 200 status code. 
+
+Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects?name=my%20project` example: 
+```json
+[
+  {
+    "id": "7",
+    "name": "my project",
+    "created_at": "2019-05-03T16:02:46.742Z",
+    "updated_at": "2019-05-03T16:02:46.742Z"
+  }
+]
+```
+
+If the name passed through the query parameters does not match the name of any projects, the response will send an error message and a 404 status code. 
+
+Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects?name=phantom%20project` example: 
+```json
+"That project does not exist"
 ```
 
 #### GET `/api/v1/projects/:id` (Get Single Project)

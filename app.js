@@ -3,7 +3,7 @@ const cors = require('cors');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
-// TravisCI
+
 const app = express();
 
 app.use(express.json());
@@ -15,7 +15,6 @@ function sendNotFound(res, message) {
 
 app.get('/api/v1/projects', (req, res) => {
   var name = req.query.name
-  console.log(req.query)
   database('projects').select()
     .then((projects) => {
       if (name) {
