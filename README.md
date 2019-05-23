@@ -80,6 +80,7 @@ Response from `https://liz-taylor-palette.herokuapp.com/api/v1/projects/999` exa
 
 #### POST `/api/v1/projects/` (Create New Project)
 A user can add an additional project to the database with the following required parameters:
+
 | Name         | type      | Description                             |
 | :------------|:----------|:----------------------------------------|
 | name         | string    | unique name for each project            |
